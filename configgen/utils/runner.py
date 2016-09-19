@@ -17,10 +17,11 @@ def runCommand(command):
             time.sleep(command.delay)
 
     command.env.update(os.environ)
-    proc = subprocess.Popen(command.array, stdout=subprocess.PIPE, env=command.env)
+    proc = subprocess.Popen(command.array, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=command.env)
     exitcode = -1
     try:
-        exitcode = proc.wait()
+        out, err = proc.communicate()
+        exitcode = proc.returncode
     except:
         print("emulator exited")
 
